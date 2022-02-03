@@ -58,8 +58,8 @@ class QEMURunner:
         script = f"{self.qemu_binary} {self.qemu_options}"
         macro.run_command(script)
 
-    @staticmethod
-    def login(id, pw=None):
+    def login(self, id, pw=None):
+        macro.grab_window(self.position)
         macro.run_command(id)
 
         if pw:
@@ -68,8 +68,8 @@ class QEMURunner:
 
         sleep(3)
 
-    @staticmethod
-    def logout():
+    def logout(self):
+        macro.grab_window(self.position)
         macro.run_command("exit")
         sleep(4)
 
