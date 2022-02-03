@@ -9,6 +9,11 @@ def get_pos():
     return x, y
 
 
+def grab_window(pos):
+    gui.moveTo(pos)
+    gui.click()
+
+
 def run_command(cmd):
     gui.typewrite(cmd)
     gui.press('enter')
@@ -27,32 +32,27 @@ def run_script(script):
 
 
 def log_on(pos):
-    gui.moveTo(pos)
-    gui.click()
+    grab_window(pos)
     run_command("log out_asm")
 
 
 def view_disass(pos):
-    gui.moveTo(pos)
-    gui.click()
+    grab_window(pos)
     run_command("disass $pc, $pc+1")
 
 
 def gdb_ni_ready(pos):
-    gui.moveTo(pos)
-    gui.click()
+    grab_window(pos)
     gui.typewrite("ni")
 
 
 def gdb_ni_enter(pos):
-    gui.moveTo(pos)
-    gui.click()
+    grab_window(pos)
     gui.press('enter')
 
 
 def log_off(pos):
-    gui.moveTo(pos)
-    gui.click()
+    grab_window(pos)
     run_command("log none")
 
 
@@ -61,13 +61,11 @@ def pre_flush(shell1, shell2):
     gdb_ni_enter(shell1)
     log_off(shell2)
 
-    gui.moveTo(shell1)
-    gui.click()
+    grab_window(shell1)
     run_command("r")
     time.sleep(1)
     run_command("y")
     time.sleep(3)
-
 
 
 if __name__=="__main__":
@@ -78,11 +76,9 @@ if __name__=="__main__":
     shell2_pos = 1090, 783
 
     if script:
-        gui.moveTo(shell1_pos)
-        gui.click()
+        grab_window(shell1_pos)
         run_script(script)
-        gui.moveTo(shell2_pos)
-        gui.click()
+        grab_window(shell2_pos)
         run_command("netcat 127.0.0.1 55555")
 
     pre_flush(shell1_pos, shell2_pos)
