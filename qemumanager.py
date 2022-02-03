@@ -23,6 +23,14 @@ class QEMUMonitor:
         cmd = f"netcat {self.address} {self.port}"
         macro.run_command(cmd)
 
+    def log_on(self):
+        macro.grab_window(self.position)
+        macro.run_command("log out_asm")
+
+    def log_off(self):
+        macro.grab_window(self.position)
+        macro.run_command("log none")
+
 
 class QEMURunner:
     def __init__(self,
@@ -31,7 +39,7 @@ class QEMURunner:
                  options: str = '',
                  redirect: str = None
                  ):
-        self.runner_pos = position
+        self.position = position
         self.qemu_binary = qemu
 
         if redirect:
@@ -46,7 +54,7 @@ class QEMURunner:
         self.boot_finish = True
 
     def boot_qemu(self):
-        macro.grab_window(self.runner_pos)
+        macro.grab_window(self.position)
         script = f"{self.qemu_binary} {self.qemu_options}"
         macro.run_command(script)
 
@@ -64,6 +72,25 @@ class QEMURunner:
     def logout():
         macro.run_command("exit")
         sleep(4)
+
+    def view_disass(self):
+        macro.grab_window(self.position)
+        macro.run_command("disass $pc, $pc+1")
+
+    def standby_gdb_ni(self):
+        macro.grab_window(self.position)
+        macro.type_command("ni")
+
+    def enter_gdb_ni(self):
+        macro.grab_window(self.position)
+        macro.press_key('enter')
+
+    def rerun_gdb(self):
+        macro.grab_window(self.position)
+        macro.run_command("r")
+        sleep(1)
+        macro.run_command("y")
+        sleep(3)
 
     def print_out(self, timeout=0):
         self.flush_log_buffer()
@@ -129,6 +156,13 @@ class QEMUManager:
         address = network_info[1]
         port = network_info[2]
         return address, port
+
+    def pre_flush(self):
+        self.runner.standby_gdb_ni()
+        self.monitor.log_on()
+        self.runner.enter_gdb_ni()
+        self.monitor.log_off()
+        self.runner.rerun_gdb()
 
 
 if __name__ == '__main__':

@@ -14,6 +14,14 @@ def grab_window(pos):
     gui.click()
 
 
+def type_command(cmd):
+    gui.typewrite(cmd)
+
+
+def press_key(key):
+    gui.press(key)
+
+
 def run_command(cmd):
     gui.typewrite(cmd)
     gui.press('enter')
@@ -29,43 +37,6 @@ def run_script(script):
                 continue
 
             run_command(cmd)
-
-
-def log_on(pos):
-    grab_window(pos)
-    run_command("log out_asm")
-
-
-def view_disass(pos):
-    grab_window(pos)
-    run_command("disass $pc, $pc+1")
-
-
-def gdb_ni_ready(pos):
-    grab_window(pos)
-    gui.typewrite("ni")
-
-
-def gdb_ni_enter(pos):
-    grab_window(pos)
-    gui.press('enter')
-
-
-def log_off(pos):
-    grab_window(pos)
-    run_command("log none")
-
-
-def pre_flush(shell1, shell2):
-    log_on(shell2)
-    gdb_ni_enter(shell1)
-    log_off(shell2)
-
-    grab_window(shell1)
-    run_command("r")
-    time.sleep(1)
-    run_command("y")
-    time.sleep(3)
 
 
 if __name__=="__main__":
