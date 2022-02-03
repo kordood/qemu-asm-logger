@@ -2,13 +2,14 @@ import pyautogui as gui
 import sys
 import time
 
+
 def get_pos():
     x, y = gui.position()
     print(x, y)
     return x, y
 
 
-def type_enter(cmd):
+def run_command(cmd):
     gui.typewrite(cmd)
     gui.press('enter')
 
@@ -22,19 +23,19 @@ def run_script(script):
                 time.sleep(int(cmd))
                 continue
 
-            type_enter(cmd)
+            run_command(cmd)
 
 
 def log_on(pos):
     gui.moveTo(pos)
     gui.click()
-    type_enter("log out_asm")
+    run_command("log out_asm")
 
 
 def view_disass(pos):
     gui.moveTo(pos)
     gui.click()
-    type_enter("disass $pc, $pc+1")
+    run_command("disass $pc, $pc+1")
 
 
 def gdb_ni_ready(pos):
@@ -52,7 +53,7 @@ def gdb_ni_enter(pos):
 def log_off(pos):
     gui.moveTo(pos)
     gui.click()
-    type_enter("log none")
+    run_command("log none")
 
 
 def pre_flush(shell1, shell2):
@@ -62,9 +63,9 @@ def pre_flush(shell1, shell2):
 
     gui.moveTo(shell1)
     gui.click()
-    type_enter("r")
+    run_command("r")
     time.sleep(1)
-    type_enter("y")
+    run_command("y")
     time.sleep(3)
 
 
@@ -82,7 +83,7 @@ if __name__=="__main__":
         run_script(script)
         gui.moveTo(shell2_pos)
         gui.click()
-        type_enter("netcat 127.0.0.1 55555")
+        run_command("netcat 127.0.0.1 55555")
 
     pre_flush(shell1_pos, shell2_pos)
     for i in range(0, count):
