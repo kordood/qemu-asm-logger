@@ -92,7 +92,7 @@ class QEMURunner:
         macro.run_command("y")
         sleep(3)
 
-    def print_out(self, timeout=0):
+    def print_out(self, timeout: int = 0):
         self.flush_log_buffer()
         previous_tell = self.logfile.tell()
         current_time = time()
