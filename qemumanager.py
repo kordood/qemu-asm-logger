@@ -118,7 +118,7 @@ class QEMURunner:
 
 class QEMUManager:
     def __init__(self,
-                 positions: List[(int, int)],
+                 positions: List,
                  qemu: str,
                  options: str = '',
                  redirect: str = "/dev/null",
