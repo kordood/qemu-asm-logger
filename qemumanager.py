@@ -74,6 +74,31 @@ class QEMURunner:
         macro.run_command("exit")
         sleep(4)
 
+    def run_on_gdb(self, binary):
+        macro.grab_window(self.position)
+        macro.run_command(f"gdb {binary}")
+        sleep(4)
+
+    def run_gdb(self):
+        macro.grab_window(self.position)
+        macro.run_command("r")
+        sleep(3)
+
+    def rerun_gdb(self):
+        macro.grab_window(self.position)
+        macro.run_command("r")
+        sleep(3)
+        macro.run_command("y")
+        sleep(3)
+
+    def set_breakpoint(self, breakpoint):
+        macro.grab_window(self.position)
+
+        if breakpoint.startswith("0x") or breakpoint.isnumeric():
+            macro.run_command(f"b {breakpoint}")
+        else:
+            macro.run_command(f"b *{breakpoint}")
+
     def view_disass(self):
         macro.grab_window(self.position)
         macro.run_command("disass $pc, $pc+1")
@@ -85,13 +110,6 @@ class QEMURunner:
     def enter_gdb_ni(self):
         macro.grab_window(self.position)
         macro.press_key('enter')
-
-    def rerun_gdb(self):
-        macro.grab_window(self.position)
-        macro.run_command("r")
-        sleep(1)
-        macro.run_command("y")
-        sleep(3)
 
     def print_out(self, timeout: int = 0):
         self.flush_log_buffer()
