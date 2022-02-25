@@ -39,24 +39,5 @@ def run_script(script):
             run_command(cmd)
 
 
-if __name__=="__main__":
-    count = int(sys.argv[1]) if len(sys.argv) > 1 else 1
-    script = sys.argv[2] if len(sys.argv) > 2 else None
-
-    shell1_pos = 211, 1026
-    shell2_pos = 1090, 783
-
-    if script:
-        grab_window(shell1_pos)
-        run_script(script)
-        grab_window(shell2_pos)
-        run_command("netcat 127.0.0.1 55555")
-
-    pre_flush(shell1_pos, shell2_pos)
-    for i in range(0, count):
-        view_disass(shell1_pos)
-        gdb_ni_ready(shell1_pos)
-        log_on(shell2_pos)
-        gdb_ni_enter(shell1_pos)
-        log_off(shell2_pos)
-
+if __name__ == "__main__":
+    print(get_pos())
