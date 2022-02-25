@@ -45,11 +45,12 @@ class QEMURunner:
         if redirect:
             options += f" &>{redirect}"
 
-        self.logfile = open(redirect, "r")
-        self.log_buffer = ""
         self.qemu_options = options
         self.boot_finish = False
         self.boot_qemu()
+        sleep(80)
+        self.logfile = open(redirect, "r")
+        self.log_buffer = ""
         self.print_out()
         self.boot_finish = True
 
