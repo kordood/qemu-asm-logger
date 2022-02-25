@@ -184,6 +184,19 @@ class QEMUManager:
         self.monitor.log_off()
         self.runner.rerun_gdb()
 
+    def extract_log(self, binary, breakpoint, insn_count):
+        self.runner.run_on_gdb(binary)
+        self.runner.set_breakpoint(breakpoint)
+        self.runner.run_gdb()
+        self.pre_flush()
+
+        for i in range(0, insn_count):
+            self.runner.view_disass()
+            self.runner.standby_gdb_ni()
+            self.monitor.log_on()
+            self.runner.enter_gdb_ni()
+            self.monitor.log_off()
+
 
 if __name__ == '__main__':
     pos1_x = sys.argv[1]
