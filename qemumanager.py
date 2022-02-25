@@ -139,8 +139,9 @@ class QEMUManager:
             options += monitor_option
 
         self.positions = positions
-        self.runner = QEMURunner(positions[0], qemu=qemu, options=options)
+        self.runner = QEMURunner(positions[0], qemu=qemu, options=options, redirect=redirect)
         self.runner.login(id=id, pw=pw)
+        sleep(1)
         self.monitor = QEMUMonitor(positions[1], address=monitor_addr, port=monitor_port)
         self.monitor.attach()
 
