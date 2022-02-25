@@ -109,7 +109,7 @@ class QEMURunner:
                 if timeout <= time_gap:
                     break
 
-            if previous_tell == current_tell:
+            if previous_tell == current_tell or log_line == '':
                 break
 
     def flush_log_buffer(self):
