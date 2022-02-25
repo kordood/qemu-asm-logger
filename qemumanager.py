@@ -37,7 +37,7 @@ class QEMURunner:
                  position: (int, int),
                  qemu: str,
                  options: str = '',
-                 redirect: str = None
+                 redirect: str = "/dev/null"
                  ):
         self.position = position
         self.qemu_binary = qemu
@@ -120,7 +120,7 @@ class QEMUManager:
                  positions: List[(int, int)],
                  qemu: str,
                  options: str = '',
-                 redirect: str = None,
+                 redirect: str = "/dev/null",
                  monitor_addr: str = "127.0.0.1",
                  monitor_port: str or int = "55555",
                  id="root",
